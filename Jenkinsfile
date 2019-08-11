@@ -1,4 +1,3 @@
-
 pipeline {
   agent any
   stages {
@@ -18,28 +17,12 @@ pipeline {
 
       }
     }
-    stage('deployToK8s') {
+    stage('Deploy') {
       steps {
-        script {
-          kubernetesDeploy(kubeconfigId: 'rancher',
-
-          configs: 'k8s-deploy.yml', // REQUIRED
-          enableConfigSubstitution: false,
-
-          secretNamespace: 'devx',
-          secretName: 'devx',
-          dockerCredentials: [
-            [credentialsId: 'dockerhub']
-          ]
-        )
+        sh '''ssh ubuntu@35.154.153.24
+docker container rm -f vigilant_kilby 
+docker run -itd --name vigilant_kilby ajaysheoran2323:$BUILD_NUMBER'''
       }
-
     }
   }
-  stage('END') {
-    steps {
-      echo 'END'
-    }
-  }
-}
 }
