@@ -1,8 +1,9 @@
 #!/bin/bash
-if `docker ps ` == *vigilant_kilby*; then 
-  docker container rm -f vigilant_kilby
+CNAME=$(docker ps --format '{{.Names}}')
+if [ ${CNAME}!="vigilant_kilby" ]; then 
+  docker pull ajaysheoran2323/mynewimage:latest && docker run -itd --name vigilant_kilby ajaysheoran2323/mynewimage:latest
   
 else
-  docker run -itd --name vigilant_kilby ajaysheoran2323/mynewimage:latest
+	docker rm -f vigilant_kilby && docker pull ajaysheoran2323/mynewimage:latest && docker run -itd --name vigilant_kilby ajaysheoran2323/mynewimage:latest
   
 fi
