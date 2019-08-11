@@ -47,3 +47,35 @@ spec:
       restartPolicy: Always
       schedulerName: default-scheduler
       terminationGracePeriodSeconds: 30
+      
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    field.cattle.io/publicEndpoints: '[{"addresses":["ab6ba7979bc1111e98643063c10f30b4-1346515117.us-west-2.elb.amazonaws.com"],"port":80,"protocol":"TCP","serviceName":"devx:myapp-loadbalancer","allNodes":false}]'
+    field.cattle.io/targetWorkloadIds: '["deployment:devx:myapp"]'
+    workload.cattle.io/targetWorkloadIdNoop: "true"
+    workload.cattle.io/workloadPortBased: "true"
+  labels:
+    cattle.io/creator: norman
+  name: myapp-loadbalancer
+  namespace: devx
+  ownerReferences:
+  - apiVersion: apps/v1beta2
+    controller: true
+    kind: deployment
+    name: myapp
+spec:
+  externalTrafficPolicy: Cluster
+  ports:
+  - name: 80tcp803
+    nodePort: 31005
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    workload.user.cattle.io/workloadselector: deployment-devx-myapp
+  sessionAffinity: None
+  type: LoadBalancer
+
