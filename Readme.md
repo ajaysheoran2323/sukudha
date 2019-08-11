@@ -2,9 +2,13 @@
 
 ### Pre-requisite:
   You need to have following installed or available as infrasture on your side:
-  1. 
+  1. Jenkins Server
+  2. Kubernetes Server for container deployment.
+  3. Github account
+  4. Dockerhub account.
 
-## How to run the project
+### How to run the project:
+  Clone the project and start Jenkins pipeline. There is a pre-defined `Jenkinsfile` available in the repo, You just need to change the credentials. 
 
 
 ### Steps:
